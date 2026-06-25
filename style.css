@@ -1,1 +1,410 @@
-/* Стили добавим позже */
+/* omart.design — immersive cinematic recreation (Active Theory-inspired).
+   Three depth layers: Scene (bg) · Showcase (full-bleed works) · HUD (interface). */
+
+:root {
+  --bg: #01000d;
+  --accent: rgb(199, 181, 199);
+  --logo-w: 200px;
+  --logo-h: 73px;
+  --icon-size: 56px;
+
+  /* Cinematic motion language: slow, eased, "breathing" */
+  --ease-cine: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-slow: 0.9s;
+  --dur-med: 0.6s;
+
+  /* Safe band for the work: space reserved for header+slogan (top) and
+     the footer (bottom). On desktop the caption sits lower-left, beside the
+     centred work, so it doesn't need vertical reserve. */
+  --safe-top: 230px;
+  --safe-bottom: 128px;
+  /* Always-square work, as large as the safe band and viewport allow. */
+  --work: min(82vmin, calc(100vh - var(--safe-top) - var(--safe-bottom)), 1000px);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg);
+  color: #fff;
+  font-family: "Sora", "Outfit", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden; /* immersive: no page scroll */
+}
+
+/* ---------- z0 · Scene (animated background) ---------- */
+.rive-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+  /* parallax fallback: oversize so JS can translate without exposing edges */
+  transform: scale(1.14);
+  will-change: transform;
+}
+
+/* ---------- z1 · Showcase (full-bleed works) ---------- */
+.showcase {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  touch-action: none; /* let JS own the horizontal swipe gesture on touch */
+}
+
+.slides {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  /* 3D stage: works swap like cube faces, swinging in from depth */
+  perspective: 1700px;
+  transform-style: preserve-3d;
+}
+
+/* Each work floats full-screen; inactive ones drop into rack-focus (blur + dim).
+   Top/bottom padding reserves a safe band so works never collide with the slogan
+   (top) or the footer badge (bottom). */
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--safe-top) 5vw var(--safe-bottom);
+  opacity: 0;
+  filter: blur(14px) brightness(0.5);
+  backface-visibility: hidden;
+  transition:
+    opacity var(--dur-slow) var(--ease-cine),
+    transform var(--dur-slow) var(--ease-cine),
+    filter var(--dur-slow) var(--ease-cine);
+  pointer-events: none;
+}
+/* Visual transform/opacity/filter are driven inline by JS (the 3D cube swap);
+   this rule only owns the always-true bits of the active slide. */
+.slide.is-active {
+  pointer-events: auto; /* let the active work receive cursor for its Rive interactions */
+  z-index: 2;
+}
+/* When the .riv exposes a `focus` input, Rive does the rack-focus itself — drop CSS blur. */
+body.has-rive-focus .slide {
+  filter: none !important;
+}
+/* During surface calibration the slides are flattened instantly — no animation. */
+.showcase.calibrating .slide {
+  transition: none !important;
+}
+
+/* The work canvas: an explicit square (no aspect-ratio guesswork → no stretch) */
+.slide canvas {
+  display: block;
+  width: var(--work);
+  height: var(--work);
+}
+
+/* Graceful fallback when a .riv fails to load */
+.slide.rive-failed canvas { visibility: hidden; }
+.slide.rive-failed::after {
+  content: "✦";
+  font-size: 48px;
+  color: rgba(199, 181, 199, 0.5);
+}
+
+/* Cinematic grade: vignette + faint grain over the showcase */
+.grade {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 120% at 50% 45%, transparent 52%, rgba(0, 0, 0, 0.55) 100%),
+    radial-gradient(140% 100% at 50% 0%, rgba(40, 28, 60, 0.25), transparent 55%);
+}
+.grade::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: screen;
+  animation: grain 0.6s steps(2) infinite;
+}
+@keyframes grain {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(-4%, 3%); }
+  100% { transform: translate(3%, -2%); }
+}
+
+/* ---------- z2 · HUD (interface overlay) ---------- */
+.hud {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 32px 24px;
+  pointer-events: none; /* empty areas pass clicks/drag to the showcase below */
+  will-change: transform;
+}
+/* Interactive bits opt back into pointer events (slogan included — it's a Rive interaction) */
+.logo, .contact, .slogan, .nav-arrow, .made-badge, .dot { pointer-events: auto; }
+/* The Rive canvas inside an outbound link must NOT eat the tap, or the link never
+   fires (critical on touch). The logo keeps its canvas interactive (its link is just
+   "/", so Rive interaction is more valuable than navigation). */
+.contact canvas, .made-badge canvas { pointer-events: none; }
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: block;
+  width: var(--logo-w);
+  height: var(--logo-h);
+  text-decoration: none;
+}
+.logo canvas { width: 100%; height: 100%; display: block; }
+
+.contacts {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.contact {
+  display: block;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--dur-med) var(--ease-cine);
+}
+.contact:hover { transform: translateY(-3px); }
+.contact canvas { width: 100%; height: 100%; display: block; }
+
+/* Slogan floats near the top-centre, over the work (kept compact so works read large) */
+.slogan {
+  width: 460px;
+  max-width: 88vw;
+  height: 140px;
+  margin: 6px auto 0;
+}
+.slogan canvas { width: 100%; height: 100%; display: block; }
+
+/* Edge navigation arrows, vertically centred */
+.nav-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--dur-med) var(--ease-cine), transform var(--dur-med) var(--ease-cine);
+}
+.nav-arrow:hover { background: rgba(0, 0, 0, 0.6); }
+.nav-prev { left: 24px; }
+.nav-prev:hover { transform: translateY(-50%) translateX(-3px); }
+.nav-next { right: 24px; }
+.nav-next:hover { transform: translateY(-50%) translateX(3px); }
+
+/* Footer pinned to the bottom: dots + made badge */
+.footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: var(--accent);
+  opacity: 0.4;
+  cursor: pointer;
+  transition: opacity var(--dur-med) var(--ease-cine), transform var(--dur-med) var(--ease-cine);
+}
+.dot.active { opacity: 1; transform: scale(1.3); }
+
+.made-badge { display: inline-flex; text-decoration: none; }
+/* Compact footer so the dots sit clear below the work */
+.footer canvas { display: block; width: min(200px, 54vw); height: 60px; }
+
+/* ---------- Project caption (English copy, in the safe band, lower-left) ---------- */
+.caption {
+  position: fixed;
+  left: 32px;
+  bottom: clamp(118px, 16vh, 156px);
+  z-index: 4;
+  max-width: min(380px, 60vw);
+  pointer-events: none; /* purely informative; never blocks the work */
+  font-family: "Outfit", sans-serif;
+  color: #F2DCF2;
+  transition: opacity var(--dur-med) var(--ease-cine), transform var(--dur-med) var(--ease-cine);
+}
+.caption.is-switching { opacity: 0; transform: translateY(8px); }
+.caption-index {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.75;
+}
+.caption-title {
+  margin: 5px 0 3px;
+  font-size: clamp(18px, 2vw, 25px);
+  font-weight: 300; /* slightly denser so the title stays legible */
+  line-height: 1.1;
+}
+.caption-desc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 200; /* thin; drop to 100 for even lighter */
+}
+
+/* ---------- Ben the mascot (bottom-right, cursor-tracking, click-through) ---------- */
+.mascot {
+  position: fixed;
+  /* Bottom-right CORNER OF THE WORK square (centred), with equal inset from the
+     work's right edge and bottom edge — not the screen corner.
+     Work right edge = (50% - work/2) from the viewport right; bottom = var(--safe-bottom). */
+  --mascot-inset: 16px;
+  right: max(10px, calc(50% - var(--work) / 2 + var(--mascot-inset)));
+  bottom: calc(var(--safe-bottom) + var(--mascot-inset));
+  z-index: 5;
+  width: clamp(96px, 10vw, 135px);  /* half the previous size */
+  height: clamp(96px, 10vw, 135px);
+  pointer-events: none; /* mascot never blocks the site or the works */
+  will-change: transform;
+}
+.mascot canvas { display: block; width: 100%; height: 100%; }
+
+/* ---------- Intro veil (cinematic loader) ---------- */
+.intro-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: var(--bg);
+  pointer-events: auto; /* clickable: the user can click Ben to make him land */
+  opacity: 1;
+  transition: opacity 1.1s var(--ease-cine);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loader-rive { pointer-events: auto; cursor: pointer; }
+body.is-ready .intro-veil { opacity: 0; }
+/* Fully drop the veil after it fades so it never holds GPU/hit-testing */
+body.is-ready .intro-veil { visibility: hidden; transition: opacity 1.1s var(--ease-cine), visibility 0s linear 1.1s; }
+
+/* The alien landing animation that plays while the site loads */
+.loader-rive {
+  display: block;
+  width: min(74vmin, 680px);
+  height: min(74vmin, 680px);
+}
+
+/* Staged reveal of HUD elements after the veil lifts (fallback when no Rive `intro`) */
+.logo, .slogan, .contacts, .footer, .caption, .mascot {
+  transition: opacity var(--dur-slow) var(--ease-cine), transform var(--dur-slow) var(--ease-cine);
+}
+body.is-loading .logo,
+body.is-loading .slogan,
+body.is-loading .contacts,
+body.is-loading .footer,
+body.is-loading .caption,
+body.is-loading .mascot {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+/* ---------- Breakpoints ---------- */
+@media (max-width: 1199.98px) {
+  .hud { padding: 14px 24px 20px; }
+  .logo { width: 190px; height: 70px; }
+  .slogan { width: 400px; height: 124px; }
+  :root {
+    --safe-top: 210px;
+    --safe-bottom: 128px;
+    --work: min(80vmin, calc(100vh - var(--safe-top) - var(--safe-bottom)), 880px);
+  }
+}
+
+@media (max-width: 809.98px) {
+  .hud { padding: 12px 16px 18px; --icon-size: 44px; }
+  .logo { width: 150px; height: 55px; }
+  .contacts { gap: 16px; }
+  .slogan { width: 325px; height: 100px; }
+  /* Mobile reserves bottom space because the caption sits centred under the work.
+     Caption kept compact so the work stays large. */
+  :root {
+    --safe-top: 172px;
+    --safe-bottom: 224px;
+    --work: min(90vmin, calc(100vh - var(--safe-top) - var(--safe-bottom)), 600px);
+  }
+  .slide { padding: var(--safe-top) 12px var(--safe-bottom); }
+
+  /* Smaller footer so the dots sit clear below the caption */
+  .footer { gap: 10px; }
+  .footer canvas { width: min(150px, 48vw); height: 50px; }
+
+  /* Caption: centred under the work, stacked, clear of the dots */
+  .caption {
+    left: 14px;
+    right: 14px;
+    bottom: clamp(126px, 17vh, 158px);
+    max-width: none;
+    text-align: center;
+  }
+  .caption-index { font-size: 9px; }
+  .caption-title { font-size: 16px; }
+  /* Smaller and capped to a few lines so a long blurb can't climb onto the work */
+  .caption-desc {
+    font-size: 11.5px;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .nav-arrow { width: 42px; height: 42px; background: rgba(0, 0, 0, 0.45); }
+  .nav-prev { left: 10px; }
+  .nav-next { right: 10px; }
+
+  /* Mascot smaller on mobile, in the work's bottom-right corner */
+  .mascot { width: 66px; height: 66px; --mascot-inset: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide { transition: opacity var(--dur-med) linear; transform: none; filter: none; }
+  .slide:not(.is-active) { filter: brightness(0.45); }
+  .grade::after { animation: none; }
+  .rive-bg { transform: none; }
+  .intro-veil { transition: opacity 0.3s linear; }
+}

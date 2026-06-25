@@ -3,40 +3,109 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>omart.design</title>
+  <title>omart.design — portfolio</title>
+  <meta name="description" content="Портфолио O_MART — интерактивные анимации и дизайн." />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="omart.design — portfolio" />
+  <meta property="og:description" content="Портфолио O_MART — интерактивные анимации и дизайн." />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2301000d'/%3E%3Ctext x='50' y='68' font-size='60' text-anchor='middle' fill='%23fff' font-family='sans-serif'%3EO%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300&display=swap" rel="stylesheet">
+  <!-- Get the loader on screen ASAP: fetch the Rive runtime early -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js">
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <header>
-    <h1>omart.design</h1>
-    <nav>
-      <a href="#work">Работы</a>
-      <a href="#about">Обо мне</a>
-      <a href="#contact">Контакты</a>
-    </nav>
-  </header>
+<body class="is-loading">
+  <!-- z0 · Scene: full-screen animated background (cursor-reactive, parallax) -->
+  <canvas class="rive-bg" data-rive="rive/background_stars.riv" data-artboard="main" data-fit="cover" aria-hidden="true"></canvas>
 
-  <main>
-    <section id="work">
-      <h2>Работы</h2>
-      <p>Здесь будут проекты.</p>
-    </section>
+  <!-- z1 · Showcase: full-bleed stack of works, cross-faded with rack-focus -->
+  <section class="showcase" aria-roledescription="carousel" aria-label="Работы">
+    <ul class="slides">
+      <!-- Edit data-title / data-desc to set the English caption for each work.
+           (Project 1 — the alien — now drives the loader, see .intro-veil below.) -->
+      <li class="slide" data-title="Pointer" data-desc="A pin that rests in a gentle idle and springs into a jump the moment your cursor reaches it — a hover-reactive state machine built in Rive.">
+        <canvas data-rive="rive/project_3_pointer.riv" data-fit="contain" aria-label="Pointer"></canvas></li>
+      <li class="slide" data-interactive="true" data-title="Ferris Wheel" data-desc="Flip the switch and the Ferris wheel spins up, cruises, then eases to a halt with a cabin parked perfectly at the bottom — real physics, scripted in Rive.">
+        <canvas data-rive="rive/project_4_wheel.riv" data-fit="contain" aria-label="Ferris Wheel"></canvas></li>
+      <li class="slide" data-title="Cat &amp; Fly" data-desc="A cat keeps its eyes locked on a fly that trails your cursor, tracking its every move — a pointer-driven interaction built in Rive.">
+        <canvas data-rive="rive/project_5_cat_N_fly.riv" data-fit="contain" aria-label="Cat and Fly"></canvas></li>
+      <li class="slide" data-title="Jumping Penguin" data-desc="A penguin on an ice floe that hops toward wherever you click — left, centre or right — kicking up bursts of snow. An interactive character built in Rive.">
+        <canvas data-rive="rive/project_6_jumping_pinguin.riv" data-fit="contain" aria-label="Jumping Penguin"></canvas></li>
+    </ul>
 
-    <section id="about">
-      <h2>Обо мне</h2>
-      <p>Текст о себе</p>
-    </section>
+    <!-- Cinematic grade overlay (vignette + grain). Hidden if the scene .riv bakes its own. -->
+    <div class="grade" aria-hidden="true"></div>
+  </section>
 
-    <section id="contact">
-      <h2>Контакты</h2>
-      <p>nicol.art.nova@gmail.com</p>
-    </section>
-  </main>
+  <!-- z2 · HUD: interface over the scene. Container is click-through; children opt back in. -->
+  <div class="hud" data-parallax="0.18">
+    <header class="header">
+      <a class="logo" href="/" aria-label="omart.design">
+        <canvas data-rive="rive/logo_omart.riv"></canvas>
+      </a>
 
-  <footer>
-    <p>© omart.design</p>
-  </footer>
+      <nav class="contacts" aria-label="Контакты">
+        <a class="contact" data-name="mail" href="mailto:nicol.art.nova@gmail.com" target="_blank" rel="noopener" aria-label="E-mail">
+          <canvas data-rive="rive/icon_mail.riv" data-artboard="mail"></canvas>
+        </a>
+        <a class="contact" data-name="tg" href="https://t.me/O_MART_nova" target="_blank" rel="noopener" aria-label="Telegram">
+          <canvas data-rive="rive/icon_telegram.riv" data-artboard="TG"></canvas>
+        </a>
+        <a class="contact" data-name="wa" href="https://wa.me/5491133626872" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <canvas data-rive="rive/icon_whatsapp.riv" data-artboard="WA"></canvas>
+        </a>
+      </nav>
+    </header>
 
+    <!-- Top slogan animation, floating over the showcase -->
+    <div class="slogan" data-parallax="0.32">
+      <canvas data-rive="rive/main_text_slogan.riv" aria-label="Слоган"></canvas>
+    </div>
+
+    <!-- Showcase controls (pulled out of the showcase so they sit on the HUD) -->
+    <button class="nav-arrow nav-prev" type="button" aria-label="Назад">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="nav-arrow nav-next" type="button" aria-label="Вперёд">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <!-- Active work caption (filled from the slide's data-title / data-desc) -->
+    <div class="caption" aria-live="polite">
+      <span class="caption-index"></span>
+      <h2 class="caption-title"></h2>
+      <p class="caption-desc"></p>
+    </div>
+
+    <footer class="footer">
+      <div class="dots" role="tablist" aria-label="Навигация по работам"></div>
+      <a class="made-badge" href="https://rive.app" target="_blank" rel="noopener" aria-label="Made in Rive">
+        <canvas data-rive="rive/footer_made_in_R.riv" data-artboard="Made in R" data-fit="contain"></canvas>
+      </a>
+    </footer>
+
+    <!-- Ben the mascot: stands in the bottom-right, tracks the cursor, never blocks input.
+         Wire its gaze to the parallaxX / parallaxY inputs (normalized -1..1) in Rive. -->
+    <div class="mascot" data-parallax="0.25" aria-hidden="true">
+      <canvas data-rive="rive/ben.riv" data-artboard="Ben" data-fit="contain"></canvas>
+    </div>
+  </div>
+
+  <!-- Cinematic loader veil — Ben arrives by ship here while assets load. The user
+       can click to make him land; then (or after a timeout) the veil fades to the site.
+       Set data-artboard to ben.riv's "arrival" artboard if it differs from the default. -->
+  <div class="intro-veil">
+    <canvas class="loader-rive" data-rive="rive/ben.riv" data-artboard="ben_in_ship" data-fit="contain"></canvas>
+  </div>
+
+  <!-- Rive web runtime — WebGL2 / Rive Renderer (full fidelity: meshes, gradients, blur) -->
+  <script src="https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

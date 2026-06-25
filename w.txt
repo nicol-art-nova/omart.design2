@@ -1,0 +1,87 @@
+[81120:3794445:0623/154500.197118:INFO:components/enterprise/browser/controller/chrome_browser_cloud_management_controller.cc:239] No machine level policy manager exists.
+[81120:3794536:0623/154500.845790:WARNING:chrome/browser/extensions/external_pref_loader.cc:294] You are using an old-style extension deployment method (external_extensions.json), which will soon be deprecated. (see http://developer.chrome.com/docs/extensions/how-to/distribute/install-extensions)
+[81120:3794445:0623/154503.941959:ERROR:chrome/browser/ui/views/user_education/impl/browser_user_education_interface_impl.cc:186] Attempting to show IPH IPH_BatterySaverMode before browser initialization complete; IPH will not be shown.
+[81120:3794445:0623/154508.746312:ERROR:chrome/browser/ui/views/user_education/impl/browser_user_education_interface_impl.cc:186] Attempting to show IPH IPH_BatterySaverMode before browser initialization complete; IPH will not be shown.
+Trying to load the allocator multiple times. This is *not* supported.
+[81120:3794540:0623/154509.750315:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: PHONE_REGISTRATION_ERROR
+[81120:3794540:0623/154509.776663:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: PHONE_REGISTRATION_ERROR
+[81120:3794540:0623/154509.793362:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: PHONE_REGISTRATION_ERROR
+[81120:3794540:0623/154513.075965:ERROR:google_apis/gcm/engine/mcs_client.cc:702]   Error code: 401  Error message: Authentication Failed: wrong_secret
+[81120:3794540:0623/154513.077027:ERROR:google_apis/gcm/engine/mcs_client.cc:704] Failed to log in to GCM, resetting connection.
+[81131:3794565:0623/154519.765072:ERROR:gpu/command_buffer/service/gl_utils.cc:430] [.WebGL-0x12c0047c000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[81131:3794565:0623/154519.941368:ERROR:gpu/command_buffer/service/gl_utils.cc:430] [.WebGL-0x12c00480200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[81131:3794565:0623/154520.305662:ERROR:gpu/command_buffer/service/gl_utils.cc:430] [.WebGL-0x12c00483e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[81131:3794565:0623/154520.371334:ERROR:gpu/command_buffer/service/gl_utils.cc:430] [.WebGL-0x12c00487a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[81120:3794445:0623/154522.111806:INFO:CONSOLE:0] "[.WebGL-0x12c0047c000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels", source: http://localhost:8765/ (0)
+[81120:3794445:0623/154522.112856:INFO:CONSOLE:0] "[.WebGL-0x12c00480200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels", source: http://localhost:8765/ (0)
+[81120:3794445:0623/154522.112933:INFO:CONSOLE:0] "[.WebGL-0x12c00483e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels", source: http://localhost:8765/ (0)
+[81120:3794445:0623/154522.112968:INFO:CONSOLE:0] "[.WebGL-0x12c00487a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)", source: http://localhost:8765/ (0)
+[81120:3794445:0623/154523.989100:INFO:CONSOLE:5923] "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (5923)
+[81120:3794445:0623/154524.046574:INFO:CONSOLE:5923] "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (5923)
+[81120:3794445:0623/154531.061189:INFO:CONSOLE:5923] "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (5923)
+[81120:3794536:0623/154543.111533:INFO:chrome/browser/extensions/extension_garbage_collector.cc:188] Garbage collection for extensions on file thread is complete.
+[81120:3794445:0623/154543.736455:INFO:CONSOLE:5923] "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (5923)
+[81120:3794445:0623/154543.906683:INFO:CONSOLE:5923] "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (5923)
+[81120:3794540:0623/154544.113614:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[81172:3795756:0623/154544.818766:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, ARM_64, command line: /Users/olga/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake-all --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[81172:3795756:0623/154544.825731:VERBOSE1:chrome/updater/updater.cc:377] OS version: 26.5.1, arch: arm64, System uptime (seconds): 225451, parent pid: 81120
+[81172:3795756:0623/154544.878894:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/olga/Library/Application Support/Google/GoogleUpdater): 65031360512B (60.565GiB) / 245107195904B (228.274GiB)
+[81172:3795756:0623/154544.879166:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/j5/n7hv_61d6hn_p0bhlwnw3f740000gn/T/): 65031360512B (60.565GiB) / 245107195904B (228.274GiB)
+[81172:3795756:0623/154544.879952:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[81176:3795776:0623/154544.938575:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, ARM_64, command line: /Users/olga/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --crash-handler --database=/Users/olga/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/Crashpad --url=https://clients2.google.com/cr/report --annotation=prod=Update4 --annotation=ver=150.0.7863.0 --handshake-fd=6 --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[81176:3795776:0623/154544.939991:VERBOSE1:chrome/updater/updater.cc:377] OS version: 26.5.1, arch: arm64, System uptime (seconds): 225451, parent pid: 1
+[81176:3795776:0623/154544.960243:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/olga/Library/Application Support/Google/GoogleUpdater): 65031536640B (60.565GiB) / 245107195904B (228.274GiB)
+[81176:3795776:0623/154544.960287:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/j5/n7hv_61d6hn_p0bhlwnw3f740000gn/T/): 65031536640B (60.565GiB) / 245107195904B (228.274GiB)
+[81176:3795776:0623/154544.960443:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[81172:3795756:0623/154545.043295:VERBOSE1:chrome/updater/crash_reporter.cc:124] Crash handler launched and ready.
+[81172:3795756:0623/154545.061487:VERBOSE1:chrome/updater/crash_client.cc:108] Found 0 completed crash reports
+[81172:3795756:0623/154545.061765:VERBOSE1:chrome/updater/crash_client.cc:132] Found 0 pending crash reports
+[81172:3795756:0623/154545.061993:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:145] open /Users/olga/Library/Application Support/Google/RLZ/Crashpad/settings.dat: No such file or directory (2)
+[81172:3795756:0623/154545.062483:VERBOSE1:chrome/updater/updater.cc:105] Crash reporting initialized.
+[81172:3795785:0623/154545.063445:VERBOSE1:chrome/updater/app/app_wakeall.cc:58] Launching `/Users/olga/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake`
+[81177:3795789:0623/154545.147522:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, ARM_64, command line: /Users/olga/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[81177:3795789:0623/154545.154269:VERBOSE1:chrome/updater/updater.cc:377] OS version: 26.5.1, arch: arm64, System uptime (seconds): 225452, parent pid: 81172
+[81177:3795789:0623/154545.166471:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/olga/Library/Application Support/Google/GoogleUpdater): 65031520256B (60.565GiB) / 245107195904B (228.274GiB)
+[81177:3795789:0623/154545.166734:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/j5/n7hv_61d6hn_p0bhlwnw3f740000gn/T/): 65031520256B (60.565GiB) / 245107195904B (228.274GiB)
+[81177:3795789:0623/154545.167366:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[81179:3795806:0623/154545.262657:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, ARM_64, command line: /Users/olga/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --crash-handler --database=/Users/olga/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/Crashpad --url=https://clients2.google.com/cr/report --annotation=prod=Update4 --annotation=ver=150.0.7863.0 --handshake-fd=6 --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[81179:3795806:0623/154545.275443:VERBOSE1:chrome/updater/updater.cc:377] OS version: 26.5.1, arch: arm64, System uptime (seconds): 225452, parent pid: 1
+[81179:3795806:0623/154545.299976:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/olga/Library/Application Support/Google/GoogleUpdater): 65031487488B (60.565GiB) / 245107195904B (228.274GiB)
+[81179:3795806:0623/154545.300047:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/j5/n7hv_61d6hn_p0bhlwnw3f740000gn/T/): 65031487488B (60.565GiB) / 245107195904B (228.274GiB)
+[81179:3795806:0623/154545.300826:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[81177:3795789:0623/154545.318999:VERBOSE1:chrome/updater/crash_reporter.cc:124] Crash handler launched and ready.
+[81177:3795789:0623/154545.323731:VERBOSE1:chrome/updater/crash_client.cc:108] Found 0 completed crash reports
+[81177:3795789:0623/154545.327299:VERBOSE1:chrome/updater/crash_client.cc:132] Found 0 pending crash reports
+[81177:3795789:0623/154545.332847:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:145] open /Users/olga/Library/Application Support/Google/RLZ/Crashpad/settings.dat: No such file or directory (2)
+[81177:3795789:0623/154545.333170:VERBOSE1:chrome/updater/updater.cc:105] Crash reporting initialized.
+[81177:3795789:0623/154545.334310:VERBOSE1:chrome/updater/ipc/update_service_internal_proxy_mojo.cc:61] Run
+[81120:3794445:0623/154546.457839:INFO:CONSOLE:5923] "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (5923)
+Created TensorFlow Lite XNNPACK delegate for CPU.
+[81177:3795789:0623/154555.680462:VERBOSE1:chrome/updater/app/app.cc:52] Shutdown: 0
+[81177:3795789:0623/154555.700835:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS END event to the history log
+[81177:3795789:0623/154555.703550:VERBOSE1:chrome/updater/updater.cc:419] UpdaterMain (--wake) returned 0.
+[81172:3795785:0623/154555.869879:VERBOSE1:chrome/updater/app/app_wakeall.cc:68] `/Users/olga/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake` exited 0
+[81120:3794445:0623/154555.879350:INFO:CONSOLE:5923] "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (5923)
+[81120:3794445:0623/154555.879984:INFO:CONSOLE:1136] "Could not find a View Model linked to Artboard heart.", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (1136)
+[81172:3795756:0623/154555.882842:VERBOSE1:chrome/updater/app/app.cc:52] Shutdown: 0
+[81172:3795756:0623/154555.904248:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS END event to the history log
+[81172:3795756:0623/154555.904336:VERBOSE1:chrome/updater/updater.cc:419] UpdaterMain (--wake-all) returned 0.
+[81179:3795806:0623/154606.526717:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS END event to the history log
+[81179:3795806:0623/154606.568331:VERBOSE1:chrome/updater/updater.cc:419] UpdaterMain (--crash-handler) returned 0.
+[81176:3795776:0623/154606.784972:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS END event to the history log
+[81176:3795776:0623/154606.790527:VERBOSE1:chrome/updater/updater.cc:419] UpdaterMain (--crash-handler) returned 0.
+[81120:3794445:0623/154616.189750:INFO:CONSOLE:5923] "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (5923)
+[81120:3794445:0623/154616.197632:INFO:CONSOLE:1136] "Could not find a View Model linked to Artboard rive.", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (1136)
+[81120:3794445:0623/154636.473359:INFO:CONSOLE:5923] "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (5923)
+[81120:3794540:0623/154637.626776:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[81120:3794445:0623/154637.807110:INFO:CONSOLE:40] "Rive load error: rive/project_2_day_night.riv [object Object]", source: http://localhost:8765/script.js (40)
+[81120:3794445:0623/154637.809494:INFO:CONSOLE:6615] "The file failed to load", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (6615)
+[81120:3794445:0623/154637.810765:INFO:CONSOLE:5923] "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (5923)
+[81120:3794445:0623/154644.232177:INFO:CONSOLE:5923] "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (5923)
+[81120:3794445:0623/154648.118857:INFO:CONSOLE:5923] "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (5923)
+[81120:3794445:0623/154651.924893:INFO:CONSOLE:5923] "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio", source: https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js (5923)
+[81120:3794540:0623/154658.895400:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:484] ConnectionHandler failed with net error: -2
+[81120:3794445:0623/154659.041495:ERROR:content/browser/gpu/gpu_process_host.cc:1005] GPU process exited unexpectedly: exit_code=15
+[81120:3794445:0623/154659.041634:WARNING:content/browser/gpu/gpu_process_host.cc:1447] The GPU process has crashed 1 time(s)
+Failed to initialize sandbox.[0623/154659.573469:WARNING:third_party/crashpad/crashpad/util/process/process_memory_mac.cc:94] mach_vm_read(0x16f778000, 0x8000): (os/kern) invalid address (1)
+[0623/154659.649074:WARNING:third_party/crashpad/crashpad/util/numeric/in_range_cast.h:38] value -634136515 out of range
