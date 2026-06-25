@@ -13,8 +13,6 @@
 
   if (typeof rive === "undefined") {
     console.error("Rive runtime failed to load.");
-    body.classList.remove("is-loading");
-    body.classList.add("is-ready");
     return;
   }
 
@@ -93,7 +91,6 @@
         rec.vm = bindVMNumbers(r, ["parallaxX", "parallaxY"]);
         rec.loaded = true;
         if (typeof opts.onLoad === "function") opts.onLoad(r, rec);
-        notifyLoaded();
       },
       onLoadError: function (err) {
         // Try the next artboard-name candidate. This tolerates stray leading/
@@ -112,9 +109,8 @@
         // Degrade gracefully: mark the wrapper so CSS can show a placeholder.
         var holder = canvas.closest(".slide") || canvas.parentElement;
         if (holder) holder.classList.add("rive-failed");
-        rec.loaded = true; // count as settled so the loader gate can proceed
+        rec.loaded = true;
         if (typeof opts.onLoadError === "function") opts.onLoadError(err);
-        notifyLoaded();
       },
     };
     // Artboard candidates: exact name, with a trailing/leading space, trimmed,
@@ -165,81 +161,12 @@
     }, 120);
   });
 
-  /* ---------------- Cinematic loader gate ----------------
-     Reveal the site only once BOTH are true:
-       • assets loaded  (all .riv settled)
-       • loader played  (the alien landing finished, or a min time elapsed)
-     The landing fires a Rive event at its end if the file has one; otherwise we
-     fall back to MIN_LOADER_MS so it always reveals. */
-  var MIN_LOADER_MS = 6000; // no click: reveal after this long
-  var LANDING_MS = 3200;    // after a click: time for the landing to play out fully
-  var MIN_FLOOR_MS = 1500;  // never reveal before this
-  var startTime = Date.now();
-  var loaderClicked = false;
-  var expectedLoads = 0, settledLoads = 0, gateDone = false;
-  var assetsReady = false, loaderReady = false, loaderRec = null;
-
-  function markLoaderEnded() {
-    var elapsed = Date.now() - startTime;
-    if (elapsed >= MIN_FLOOR_MS) { loaderReady = true; tryReveal(); }
-    else setTimeout(function () { loaderReady = true; tryReveal(); }, MIN_FLOOR_MS - elapsed);
-  }
-
-  function notifyLoaded() {
-    settledLoads++;
-    if (expectedLoads > 0 && settledLoads >= expectedLoads) { assetsReady = true; tryReveal(); }
-  }
-  function tryReveal() {
-    if (!gateDone && assetsReady && loaderReady) reveal();
-  }
-
-  function reveal() {
-    if (gateDone) return;
-    gateDone = true;
-    body.classList.remove("is-loading");
-    body.classList.add("is-ready");
-    // Staged intro: fire the `intro` trigger wherever a file exposes one.
+  // Fire the `intro` trigger wherever a file exposes one, then begin parallax.
+  function intro() {
     instances.forEach(function (rec) { fireInput(rec, "intro"); });
-    // Start depth parallax once the reveal animation has begun.
     startParallax();
-    // Set correct (square) drawing buffers now that everything is laid out.
     if (showcaseCalibrate) showcaseCalibrate();
-    // Free the loader once it's hidden behind the (now transparent) veil.
-    setTimeout(function () { if (loaderRec) { try { loaderRec.riv.pause(); } catch (e) {} } }, 1200);
   }
-
-  /* ---- Mount the loader (alien landing) inside the veil ---- */
-  var loaderCanvas = document.querySelector(".loader-rive");
-  if (loaderCanvas) {
-    loaderRec = mountRive(loaderCanvas, {
-      onLoad: function (r, rec) {
-        fireInput(rec, "intro"); // auto-play the arrival if the file exposes a trigger
-        // Click anywhere on the veil → the FILE plays the landing on its own click.
-        // We only schedule the reveal for after the landing has finished (we don't
-        // fire a trigger ourselves — that would double-run and desync the animation).
-        var veil = document.querySelector(".intro-veil");
-        if (veil) veil.addEventListener("click", function () {
-          if (loaderClicked) return;
-          loaderClicked = true;
-          setTimeout(markLoaderEnded, LANDING_MS);
-        });
-        // Log any Rive events (helps identify a precise "landing complete" signal).
-        try {
-          r.on(rive.EventType.RiveEvent, function (e) {
-            try { console.log("Rive event:", (e && e.data && e.data.name) || e); } catch (er) {}
-          });
-        } catch (e) {}
-      },
-    });
-  } else {
-    loaderReady = true; // no loader → don't block
-  }
-  // No click within this time → reveal anyway.
-  setTimeout(function () { if (!loaderClicked) markLoaderEnded(); }, MIN_LOADER_MS);
-
-  // Count every Rive canvas up front so the gate stays correct even though the
-  // heavy ones mount a beat later.
-  expectedLoads = document.querySelectorAll("canvas[data-rive]").length;
 
   var bgRec = null; // resolved once the scene mounts
 
@@ -252,12 +179,10 @@
     host.addEventListener("pointerleave", function () { setInput(rec, "hover", false); });
   }
 
-  /* ---- Mount the scene/HUD + works a beat AFTER the loader ----
-     This lets the loader animation start instantly and play smoothly instead of
-     fighting the heavy project canvases for WebGL initialisation. */
+  /* ---- Mount the scene/HUD + works ---- */
   function mountRest() {
     document
-      .querySelectorAll(".rive-bg, .logo canvas, .contact canvas, .slogan canvas, .footer canvas, .mascot canvas")
+      .querySelectorAll(".rive-bg, .logo canvas, .contact canvas, .slogan canvas, .footer canvas")
       .forEach(function (canvas) {
         mountRive(canvas, { onLoad: function (r, rec) { wireHover(rec); } });
       });
@@ -266,12 +191,10 @@
     });
     var showcase = document.querySelector(".showcase");
     if (showcase) initShowcase(showcase);
+    intro();
   }
   if (window.requestAnimationFrame) requestAnimationFrame(function () { setTimeout(mountRest, 300); });
   else setTimeout(mountRest, 300);
-
-  // Safety net: never trap the user behind the veil if a file stalls.
-  setTimeout(reveal, 9000);
 
   /* ---------------- Parallax (depth from cursor) ---------------- */
   // Normalized cursor position, smoothed toward the target each frame.
@@ -290,7 +213,7 @@
     curY += (targetY - curY) * 0.07;
 
     // 1) Drive parallax wherever a file exposes it — as SM inputs and/or as
-    //    data-bound ViewModel number properties (the mascot uses the latter).
+    //    data-bound ViewModel number properties.
     instances.forEach(function (rec) {
       setInput(rec, "parallaxX", curX);
       setInput(rec, "parallaxY", curY);
@@ -332,10 +255,9 @@
   }
 
   /* ---- Forward page-wide pointer events onto click-through Rive canvases ----
-     The bg and the mascot have pointer-events:none, so they never receive native
-     input. Rive attaches its listeners to the canvas, so we mirror page-wide
-     pointer moves onto them — this is what lets the mascot's eyes follow the cursor
-     and the background react, even though both are click-through. */
+     The bg has pointer-events:none, so it never receives native input. Rive
+     attaches its listeners to the canvas, so we mirror page-wide pointer moves
+     onto it — this is what lets the background react even though it's click-through. */
   function forwardPointer(targetSelector) {
     var el = document.querySelector(targetSelector);
     if (!el) return;
@@ -356,7 +278,6 @@
     });
   }
   forwardPointer(".rive-bg");
-  forwardPointer(".mascot canvas"); // mascot eyes follow the cursor
 
   /* ---------------- Showcase logic ---------------- */
   function initShowcase(root) {

@@ -287,62 +287,6 @@ body.has-rive-focus .slide {
   font-weight: 200; /* thin; drop to 100 for even lighter */
 }
 
-/* ---------- Ben the mascot (bottom-right, cursor-tracking, click-through) ---------- */
-.mascot {
-  position: fixed;
-  /* Bottom-right CORNER OF THE WORK square (centred), with equal inset from the
-     work's right edge and bottom edge — not the screen corner.
-     Work right edge = (50% - work/2) from the viewport right; bottom = var(--safe-bottom). */
-  --mascot-inset: 16px;
-  right: max(10px, calc(50% - var(--work) / 2 + var(--mascot-inset)));
-  bottom: calc(var(--safe-bottom) + var(--mascot-inset));
-  z-index: 5;
-  width: clamp(96px, 10vw, 135px);  /* half the previous size */
-  height: clamp(96px, 10vw, 135px);
-  pointer-events: none; /* mascot never blocks the site or the works */
-  will-change: transform;
-}
-.mascot canvas { display: block; width: 100%; height: 100%; }
-
-/* ---------- Intro veil (cinematic loader) ---------- */
-.intro-veil {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  background: var(--bg);
-  pointer-events: auto; /* clickable: the user can click Ben to make him land */
-  opacity: 1;
-  transition: opacity 1.1s var(--ease-cine);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.loader-rive { pointer-events: auto; cursor: pointer; }
-body.is-ready .intro-veil { opacity: 0; }
-/* Fully drop the veil after it fades so it never holds GPU/hit-testing */
-body.is-ready .intro-veil { visibility: hidden; transition: opacity 1.1s var(--ease-cine), visibility 0s linear 1.1s; }
-
-/* The alien landing animation that plays while the site loads */
-.loader-rive {
-  display: block;
-  width: min(74vmin, 680px);
-  height: min(74vmin, 680px);
-}
-
-/* Staged reveal of HUD elements after the veil lifts (fallback when no Rive `intro`) */
-.logo, .slogan, .contacts, .footer, .caption, .mascot {
-  transition: opacity var(--dur-slow) var(--ease-cine), transform var(--dur-slow) var(--ease-cine);
-}
-body.is-loading .logo,
-body.is-loading .slogan,
-body.is-loading .contacts,
-body.is-loading .footer,
-body.is-loading .caption,
-body.is-loading .mascot {
-  opacity: 0;
-  transform: translateY(12px);
-}
-
 /* ---------- Breakpoints ---------- */
 @media (max-width: 1199.98px) {
   .hud { padding: 14px 24px 20px; }
@@ -396,9 +340,6 @@ body.is-loading .mascot {
   .nav-arrow { width: 42px; height: 42px; background: rgba(0, 0, 0, 0.45); }
   .nav-prev { left: 10px; }
   .nav-next { right: 10px; }
-
-  /* Mascot smaller on mobile, in the work's bottom-right corner */
-  .mascot { width: 66px; height: 66px; --mascot-inset: 8px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -406,5 +347,4 @@ body.is-loading .mascot {
   .slide:not(.is-active) { filter: brightness(0.45); }
   .grade::after { animation: none; }
   .rive-bg { transform: none; }
-  .intro-veil { transition: opacity 0.3s linear; }
 }
