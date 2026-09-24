@@ -28,7 +28,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300&display=swap" rel="stylesheet">
   <!-- Fetch the Rive runtime early -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js">
+  <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.43.1/rive.js">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -39,6 +39,10 @@
   <section class="showcase" aria-roledescription="carousel" aria-label="Работы">
     <ul class="slides">
       <!-- Edit data-title / data-desc to set the English caption for each work. -->
+      <li class="slide" data-interactive="true" data-title="Buttons Menu" data-desc="A sci-fi navigation menu with per-character RGB text glitch on hover, an elastic bounce on click, and sound feedback via Rive Audio Events. All three menu items are reusable instances of a single component, each pulling its own label from a bound ViewModel instance — no hardcoded text, no duplicated state machine logic. Buttons use Rive's Layout system with hug-sizing, so each one auto-fits its text width instead of being manually resized. Inside: a nested state machine with VM-condition transitions, elastic interpolation for the click bounce, and RGB text channels built as independent glitch layers.">
+        <canvas data-rive="rive/project_8_buttons_menu.riv" data-fit="contain" aria-label="Buttons Menu"></canvas></li>
+      <li class="slide" data-title="Love/Rive" data-desc="A micro-experiment with new freehand drawing tools">
+        <canvas data-rive="rive/project_8_love.riv" data-fit="contain" aria-label="Love"></canvas></li>
       <li class="slide" data-title="Ben on a Ship" data-desc="An alien named Ben drifts across the cosmos aboard his little ship — an animated character scene.">
         <canvas data-rive="rive/project_1_ben_on_ship.riv" data-fit="contain" aria-label="Ben on a ship"></canvas></li>
       <li class="slide" data-title="Day &amp; Night Dragon" data-desc="A dragon that sleeps at night and wakes up when day comes. Click it and it tries to fly.">
@@ -105,7 +109,7 @@
   </div>
 
   <!-- Rive web runtime — WebGL2 / Rive Renderer (full fidelity: meshes, gradients, blur) -->
-  <script src="https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.38.2/rive.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.43.1/rive.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
