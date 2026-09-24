@@ -339,10 +339,14 @@
     slides.forEach(function (slide, i) {
       var canvas = slide.querySelector("canvas");
       recs[i] = mountRive(canvas, {
+        // Only the initially active slide starts playing. Off-screen slides mount
+        // paused at frame 0 instead of playing-then-pausing — otherwise a one-shot
+        // (non-looping) animation can burn through its whole play before the user
+        // ever swipes to it, and never plays again since it's already at its end.
+        autoplay: i === index,
         onLoad: function (r, rec) {
           if (rec.inputs["focus"]) body.classList.add("has-rive-focus");
           setInput(rec, "focus", i === index ? 0 : 1);
-          if (i !== index) safePause(r);
           calibrateSoon(); // each newly-loaded surface needs a square buffer
         },
       });
