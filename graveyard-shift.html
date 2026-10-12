@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Graveyard Shift — omart.design</title>
+  <meta name="description" content="Graveyard Shift — интерактивная игра на Rive от O_MART" />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2301000d'/%3E%3Ctext x='50' y='68' font-size='60' text-anchor='middle' fill='%23fff' font-family='sans-serif'%3EO%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300&display=swap" rel="stylesheet">
+  <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.43.1/rive.js">
+  <style>
+    :root {
+      --bg: #01000d;
+      --fg: #e9e6f5;
+    }
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: var(--bg);
+      color: var(--fg);
+      overflow: hidden;
+    }
+    .stage {
+      position: fixed;
+      inset: 0;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+    .stage canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    /* Back to the showcase, styled like the site's HUD text */
+    .back {
+      position: fixed;
+      top: 24px;
+      left: 32px;
+      z-index: 10;
+      font-family: "Outfit", system-ui, sans-serif;
+      font-weight: 200;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      color: #fff;
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+    .back:hover, .back:focus-visible { opacity: 1; }
+  </style>
+</head>
+<body>
+  <a class="back" href="index.html">← back</a>
+
+  <main class="stage">
+    <canvas id="game" aria-label="Graveyard Shift"></canvas>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.43.1/rive.js"></script>
+  <script>
+    (function () {
+      var canvas = document.getElementById("game");
+      var SRC = "rive/GraveyardShift.riv";
+
+      if (typeof rive === "undefined") {
+        console.error("Rive runtime failed to load.");
+        return;
+      }
+
+      var layout = new rive.Layout({
+        fit: rive.Fit.Contain,
+        alignment: rive.Alignment.Center
+      });
+
+      var riv = null;
+
+      // Буфер canvas должен совпадать с реальным размером на экране (с учётом плотности пикселей),
+      // иначе картинка растягивается и выглядит размытой.
+      function resize() {
+        if (riv) {
+          try { riv.resizeDrawingSurfaceToCanvas(); } catch (e) {}
+        }
+      }
+
+      // autoBind подключает view model файла: без неё кнопка Play не переключает экраны.
+      riv = new rive.Rive({
+        src: SRC,
+        canvas: canvas,
+        artboard: "Game",
+        stateMachines: "Game SM",
+        autoplay: true,
+        autoBind: true,
+        enableGPUCanvas: true,
+        layout: layout,
+        onLoad: function () {
+          resize();
+
+          // Кнопка звука: громкость плеера, выбор запоминается.
+          var muted = riv.viewModelInstance && riv.viewModelInstance.boolean("muted");
+          if (muted) {
+            try { muted.value = localStorage.getItem("gs-muted") === "1"; } catch (e) {}
+            var apply = function () {
+              riv.volume = muted.value ? 0 : 1;
+              try { localStorage.setItem("gs-muted", muted.value ? "1" : "0"); } catch (e) {}
+            };
+            muted.on(apply);
+            apply();
+          }
+        },
+        onLoadError: function (err) {
+          console.error("Rive load error:", err);
+        }
+      });
+      resize();
+
+      window.addEventListener("resize", resize);
+    })();
+  </script>
+</body>
+</html>

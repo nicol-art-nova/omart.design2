@@ -69,6 +69,8 @@
       autoplay: opts.autoplay !== false,
       stateMachines: currentSM,
       autoBind: true, // bind default ViewModel instance for data-bound files
+      // Opt-in per canvas (data-gpu="true"): needed by files with ghosts, fog and glows.
+      enableGPUCanvas: canvas.dataset.gpu === "true",
       layout: layoutFor(canvas),
       onLoad: function () {
         // Auto-correct the state machine name if "State Machine 1" doesn't exist.

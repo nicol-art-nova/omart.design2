@@ -34,7 +34,6 @@ html, body {
   -webkit-font-smoothing: antialiased;
   overflow: hidden; /* immersive: no page scroll */
 }
-
 /* ---------- z0 · Scene (animated background) ---------- */
 .rive-bg {
   position: fixed;
@@ -111,7 +110,28 @@ body.has-rive-focus .slide {
 
 /* Graceful fallback when a .riv fails to load */
 .slide.rive-failed canvas { visibility: hidden; }
-.slide.rive-failed::after {
+
+/* Graveyard Shift intro: a 16:9 box the size of the artboard, so the Play link
+   can sit exactly over the Rive button (positions are % of the artboard). */
+.game-intro {
+  position: relative;
+  width: min(90vw, 160vh);
+  aspect-ratio: 16 / 9;
+}
+.game-intro canvas {
+  width: 100%;
+  height: 100%;
+}
+/* Whole cover is the link to the game page */
+.cover-link {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+}
+.cover-link:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 4px;
+}.slide.rive-failed::after {
   content: "✦";
   font-size: 48px;
   color: rgba(199, 181, 199, 0.5);
@@ -257,9 +277,9 @@ body.has-rive-focus .slide {
 .caption {
   position: fixed;
   left: 32px;
-  bottom: clamp(118px, 16vh, 156px);
+  bottom: clamp(88px, 11vh, 108px);
   z-index: 4;
-  max-width: min(380px, 60vw);
+  max-width: min(640px, 70vw);
   pointer-events: none; /* purely informative; never blocks the work */
   font-family: "Outfit", sans-serif;
   color: #F2DCF2;
@@ -327,14 +347,10 @@ body.has-rive-focus .slide {
   }
   .caption-index { font-size: 9px; }
   .caption-title { font-size: 16px; }
-  /* Smaller and capped to a few lines so a long blurb can't climb onto the work */
+  /* Smaller; full text is shown (no line cap), so long blurbs stay complete */
   .caption-desc {
     font-size: 11.5px;
     line-height: 1.35;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
   }
 
   .nav-arrow { width: 42px; height: 42px; background: rgba(0, 0, 0, 0.45); }
