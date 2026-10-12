@@ -115,8 +115,18 @@ body.has-rive-focus .slide {
    can sit exactly over the Rive button (positions are % of the artboard). */
 .game-intro {
   position: relative;
-  width: min(90vw, 160vh);
+  /* Desktop: capped by height too, so it stays clear of the caption and arrows */
+  width: min(50vw, 68vh);
   aspect-ratio: 16 / 9;
+  margin-bottom: 8vh; /* lifts the cover above the centre line */
+}
+/* Phone portrait */
+@media (max-width: 809.98px) and (orientation: portrait) {
+  .game-intro { width: min(90vw, 62vh); }
+}
+/* Phone landscape: sized by height so the 16:9 box never gets stretched sideways */
+@media (orientation: landscape) and (max-height: 500px) {
+  .game-intro { width: min(60vw, 80vh); }
 }
 .game-intro canvas {
   width: 100%;
@@ -356,6 +366,50 @@ body.has-rive-focus .slide {
   .nav-arrow { width: 42px; height: 42px; background: rgba(0, 0, 0, 0.45); }
   .nav-prev { left: 10px; }
   .nav-next { right: 10px; }
+}
+
+/* Phone in landscape (short viewport, e.g. 844×390): compact HUD. Slogan sits on the
+   logo's line, dots go to the bottom edge, the Made in Rive badge to the right edge,
+   and the caption to the lower-left corner. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hud { padding: 8px 16px 10px; --icon-size: 36px; }
+  .logo { width: 110px; height: 40px; }
+  .contacts { gap: 10px; }
+  .slogan {
+    position: absolute;
+    top: -2px; /* centred on the logo's line */
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 200px;
+    height: 60px;
+  }
+  :root {
+    --safe-top: 60px;
+    --safe-bottom: 64px;
+    --work: min(calc(100vh - var(--safe-top) - var(--safe-bottom)), 60vw, 600px);
+  }
+  .footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 6px;
+    display: flex;
+    justify-content: center;
+  }
+  .made-badge { position: absolute; right: 0; bottom: 0; }
+  .footer canvas { width: 110px; height: 36px; }
+  .caption {
+    left: 16px;
+    right: auto;
+    bottom: 30px;
+    max-width: 24vw; /* stays in the gap beside the cover and the work */
+    text-align: left;
+  }
+  .caption-index { font-size: 8px; }
+  .caption-title { font-size: 14px; }
+  .caption-desc { font-size: 10px; line-height: 1.3; }
+  .nav-arrow { width: 34px; height: 34px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
