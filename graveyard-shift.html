@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Graveyard Shift — omart.design</title>
   <meta name="description" content="Graveyard Shift — интерактивная игра на Rive от O_MART" />
   <meta name="robots" content="noindex" />
@@ -50,6 +50,11 @@
       transition: opacity 0.2s ease;
     }
     .back:hover, .back:focus-visible { opacity: 1; }
+
+    /* Phone in landscape: the game fills the whole screen, no frame padding */
+    @media (orientation: landscape) and (max-height: 500px) {
+      .stage { padding: 0; }
+    }
   </style>
 </head>
 <body>
