@@ -28,7 +28,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300&display=swap" rel="stylesheet">
   <!-- Fetch the Rive runtime early -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.43.1/rive.js">
+  <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.45.1/rive.js">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -39,6 +39,8 @@
   <section class="showcase" aria-roledescription="carousel" aria-label="Работы">
     <ul class="slides">
       <!-- Edit data-title / data-desc to set the English caption for each work. -->
+      <li class="slide" data-interactive="true" data-title="Mix It" data-desc="An interactive illustration where a curious scientist watches your cursor and one click sets off a small chemistry experiment.">
+        <canvas data-rive="rive/project_9_mix_it.riv" data-fit="contain" aria-label="Mix It"></canvas></li>
       <!-- Graveyard Shift cover: clicking it opens the game on its own page -->
       <li class="slide" data-title="Graveyard Shift" data-desc="Interactive Halloween whack-a-mole for the Rive x Contra challenge: whack zombies and skeletons for candy, spare Grandpa Ghost and the pumpkin, and survive until midnight.">
         <div class="game-intro">
@@ -113,7 +115,7 @@
   </div>
 
   <!-- Rive web runtime — WebGL2 / Rive Renderer (full fidelity: meshes, gradients, blur) -->
-  <script src="https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.43.1/rive.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@rive-app/webgl2@2.45.1/rive.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
