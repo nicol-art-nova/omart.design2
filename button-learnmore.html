@@ -81,24 +81,34 @@
           fit: rive.Fit.Contain,
           alignment: rive.Alignment.Center
         }),
-        onLoad: function () { riv.resizeDrawingSurfaceToCanvas(); },
+        onLoad: function () {
+          riv.resizeDrawingSurfaceToCanvas();
+          // Клик теперь приходит как триггер "click" view model (а не как событие Rive).
+          var click = riv.viewModelInstance && riv.viewModelInstance.trigger("click");
+          if (click) click.on(function () { openLink(); });
+        },
         onLoadError: function (err) { console.error("Rive load error:", err); }
       });
 
-      // Событие OpenUrl из Rive (клик по кнопке). Пока открываем пустую страницу;
-      // в реальном использовании поставить OPEN_URL = null, тогда откроется адрес из события.
+      // Пока открываем пустую страницу; в реальном использовании поставить сюда адрес.
       var OPEN_URL = "about:blank";
+      var lastOpen = 0;
+
+      // Открытие вызывается и по триггеру view model, и по событию Rive (если оно есть в файле);
+      // защита от двойного срабатывания на один клик.
+      function openLink(data) {
+        var now = Date.now();
+        if (now - lastOpen < 500) return;
+        lastOpen = now;
+        var props = (data && data.properties) || {};
+        var url = OPEN_URL || (data && data.url) || props.url;
+        var w = window.open(url, (data && data.target) || "_blank");
+        if (!w) console.warn("window.open заблокирован браузером (всплывающие окна)");
+      }
 
       riv.on(rive.EventType.RiveEvent, function (e) {
-        var data = e.data;
-        console.log("Rive event:", data);
-        if (!data) return;
-        // В файле кнопки одно событие на клик, поэтому реагируем на любое событие Rive,
-        // независимо от его типа и имени (OpenUrl, обычное, переименованное).
-        var props = data.properties || {};
-        var url = OPEN_URL || data.url || props.url;
-        var w = window.open(url, data.target || "_blank");
-        if (!w) console.warn("window.open заблокирован браузером (всплывающие окна)");
+        console.log("Rive event:", e.data);
+        if (e.data) openLink(e.data);
       });
 
       // Буфер canvas должен совпадать с реальным размером на экране, иначе картинка размывается.
